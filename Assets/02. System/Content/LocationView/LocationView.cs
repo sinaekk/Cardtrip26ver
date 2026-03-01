@@ -10,7 +10,6 @@ namespace FUTUREVISION.Content
     public class LocationView : BaseView
     {
         [Header("LocationView/Location")]
-        public LocationService LocationService;
         public OSMRoadLoader RoadLoader;
         public GameObject UserLocationMarker;
 
@@ -49,26 +48,17 @@ namespace FUTUREVISION.Content
         #region Location
         private void InitializeLocation()
         {
-            LocationService.Initialize();
         }
 
         private IEnumerator StartLocationService()
         {
-            // 위치 서비스 사용 가능 여부 대기
             Debug.Log("LocationView: StartLocationService");
-            // LocationService.StartSensors();
 
-            // while (!LocationService.IsLocationServiceEnabled)
-            // {
-            //     yield return null;
-            // }
-
-            // 1초 대기
             yield return new WaitForSeconds(1f);
 
             // OSM Road Loader 시작
-            RoadLoader.centerLat = LocationService.Latitude;
-            RoadLoader.centerLon = LocationService.Longitude;
+            RoadLoader.centerLat = Input.location.lastData.latitude;
+            RoadLoader.centerLon = Input.location.lastData.longitude;
             RoadLoader.UpdateRoad();
         }
         #endregion
