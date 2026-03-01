@@ -24,46 +24,8 @@ namespace FUTUREVISION
 
         public List<int> AnsweredQuestionIndices = new List<int>();
 
-        static public List<string> QuestionList = new List<string>()
-        {
-            "지금 여행 간다면, 어떤 분위기가 좋아?",
-            "친구와 함께 간다면 어떤 곳이 끌려?",
-            "가장 기대되는 여행 순간은 언제야?",
-            "이 중 하나를 고른다면?",
-        };
-        static public List<List<string>> AnswerList = new List<List<string>>()
-        {
-            new List<string>()
-            {
-                "자연을 느낄 수 있는 조용한 곳",
-                "놀거리, 체험거리가 많은 곳",
-                "고즈넉하고 옛 감성이 느껴지는 곳"
-            },
-            new List<string>()
-            {
-                "호수나 숲이 있는 산책 코스",
-                "놀이기구나 체험존",
-                "민속촌이나 테마파크"
-            },
-            new List<string>()
-            {
-                "풍경 사진 찍기",
-                "체험 활동",
-                "조용히 둘러보며 사색하기"
-            },
-            new List<string>()
-            {
-                "힐링 산책존",
-                "놀이기구나 체험존",
-                "유서 깊은 건물과 마을"
-            },
-        };
-        static public List<string> RecommendationList = new List<string>()
-        {
-            "환경(힐링/자연): 용담호수, 경안천, 기흥호수공원, 백암산, 석성산, 청년김대건길, 광교산, 고기리 계곡, 사계절산책로(처인구)",
-            "문화(체험/놀이/즐김): 한국민속촌, 에버랜드, 와우정사, 농촌테마파크, 곤충테마파크, 보정동 카페거리",
-            "역사(유산/인문/감성): 처인성, 백암고택, 남사에담촌, 용인중앙시장, 심곡서원, 조선백자박물관, 김대건기념관, 심곡 서원 고택군"
-        };
+        [Header("Data Model/Quiz")]
+        public QuizData QuizData;
 
         public override void Initialize()
         {
@@ -72,6 +34,12 @@ namespace FUTUREVISION
 
             // Data
             string mode = Parameters.ContainsKey("mode") ? Parameters["mode"] : "";
+
+            // QuizData 누락 경고
+            if (QuizData == null)
+            {
+                Debug.LogError("[DataModel] QuizData가 연결되지 않았습니다. Inspector에서 QuizData 에셋을 연결해주세요.", this);
+            }
 
             // Reference
             // 최초 실행시 어드레서블 오브젝트 로드

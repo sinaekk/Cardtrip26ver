@@ -98,8 +98,8 @@ namespace FUTUREVISION.Content
             InitializeIntro();
             InitializeRecommendation();
             InitializeCardTrip();
-            InitilizeStamp();
-            InitilizeReward();
+            InitializeStamp();
+            InitializeReward();
 
             // 데이터 초기화
             var dataModel = GlobalManager.Instance.DataModel;
@@ -150,6 +150,12 @@ namespace FUTUREVISION.Content
                     break;
                 case ContentState.Reward:
                     RewardView.gameObject.SetActive(true);
+                    int clearedCount = (Data.Mission1Clear == 1 ? 1 : 0)
+                                     + (Data.Mission2Clear == 1 ? 1 : 0)
+                                     + (Data.Mission3Clear == 1 ? 1 : 0)
+                                     + (Data.Mission4Clear == 1 ? 1 : 0);
+                    RewardView.SetUnlockedCount(clearedCount);
+                    RewardView.SetRewardItem(0);
                     break;
                 default:
                     break;
@@ -289,21 +295,22 @@ namespace FUTUREVISION.Content
             {
                 // 설문조사 완료
                 var dataModel = GlobalManager.Instance.DataModel;
+                var quizData = dataModel.QuizData;
                 string text = $"질문에 대한 답을 통하여 지정된 코스들 중에서 사용자에게 가장 적합한 코스를 숫자로 답변해줘\n"
                     + $"(EX)1)\n"
                     + $"\n"
-                    + $"1) {DataModel.RecommendationList[0]}\n"
-                    + $"2) {DataModel.RecommendationList[1]}\n"
-                    + $"3) {DataModel.RecommendationList[2]}\n"
+                    + $"1) {quizData.Recommendations[0]}\n"
+                    + $"2) {quizData.Recommendations[1]}\n"
+                    + $"3) {quizData.Recommendations[2]}\n"
                     + $"\n"
-                    + $"Q1: {DataModel.QuestionList[0]}\n"
-                    + $"A1: {DataModel.AnswerList[0][dataModel.AnsweredQuestionIndices[0]]}\n"
-                    + $"Q2: {DataModel.QuestionList[1]}\n"
-                    + $"A2: {DataModel.AnswerList[1][dataModel.AnsweredQuestionIndices[1]]}\n"
-                    + $"Q3: {DataModel.QuestionList[2]}\n"
-                    + $"A3: {DataModel.AnswerList[2][dataModel.AnsweredQuestionIndices[2]]}\n"
-                    + $"Q4: {DataModel.QuestionList[3]}\n"
-                    + $"A4: {DataModel.AnswerList[3][dataModel.AnsweredQuestionIndices[3]]}\n"
+                    + $"Q1: {quizData.Questions[0]}\n"
+                    + $"A1: {quizData.AnswerGroups[0].Answers[dataModel.AnsweredQuestionIndices[0]]}\n"
+                    + $"Q2: {quizData.Questions[1]}\n"
+                    + $"A2: {quizData.AnswerGroups[1].Answers[dataModel.AnsweredQuestionIndices[1]]}\n"
+                    + $"Q3: {quizData.Questions[2]}\n"
+                    + $"A3: {quizData.AnswerGroups[2].Answers[dataModel.AnsweredQuestionIndices[2]]}\n"
+                    + $"Q4: {quizData.Questions[3]}\n"
+                    + $"A4: {quizData.AnswerGroups[3].Answers[dataModel.AnsweredQuestionIndices[3]]}\n"
                     + $"\n";
 
                 GlobalManager.Instance.Gemini_Chatbot.SendText(text);
@@ -581,7 +588,7 @@ namespace FUTUREVISION.Content
         }
         #endregion
         #region Stamp
-        private void InitilizeStamp()
+        private void InitializeStamp()
         {
             StampView.PopupButton.onClick.AddListener(() =>
             {
@@ -597,9 +604,9 @@ namespace FUTUREVISION.Content
         }
         #endregion
         #region Reward
-        private void InitilizeReward()
+        private void InitializeReward()
         {
-
+            RewardView.Initialize();
         }
         #endregion
     }

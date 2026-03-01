@@ -29,26 +29,13 @@ namespace FUTUREVISION.WebAR
         {
             base.Initialize();
 
-            // TODO: 카메라 및 오브젝트 초기화 비활성화
-            //ARTrackerModel.SetCameraState(StartCameraState);
-            //ARTrackerModel.SetARTrackerState(StartObjectState);
+            ARTrackerModel.SetCameraState(StartCameraState);
+            ARTrackerModel.SetARTrackerState(StartObjectState);
 
-            //ContentViewModel.SetContentState(ContentState.Intro);
-            //StartCoroutine(RequestCameraPermission(() =>
-            //{
-            //    // 카메라 권한 요청 후 초기화
-            //    InitializeWebAR();
-
-            //    if (GlobalManager.Instance.DataModel.IsOpenBingo)
-            //    {
-            //        ContentViewModel.SetContentState(ContentState.CaptureMission);
-            //        ContentViewModel.ShowBingoPanel(true);
-            //    }
-            //    else
-            //    {
-            //        ContentViewModel.SetContentState(ContentState.CheckMBTI);
-            //    }
-            //}));
+            StartCoroutine(RequestCameraPermission(() =>
+            {
+                ContentViewModel.Initialize();
+            }));
         }
 
         public IEnumerator RequestCameraPermission(Action action)

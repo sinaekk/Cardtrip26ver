@@ -20,6 +20,12 @@ namespace FUTUREVISION.Content
         public GameObject LockImage;
 
         private int currentIndex = 0;
+        private int unlockedCount = 1;
+
+        public void SetUnlockedCount(int count)
+        {
+            unlockedCount = Mathf.Max(1, count);
+        }
 
         public override void Initialize()
         {
@@ -47,7 +53,7 @@ namespace FUTUREVISION.Content
                 RewardItems[i].SetActive(i == currentIndex);
             }
 
-            LockImage.SetActive(!(currentIndex == 0));
+            LockImage.SetActive(currentIndex >= unlockedCount);
             UpdateUI();
         }
 

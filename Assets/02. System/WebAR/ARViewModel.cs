@@ -9,62 +9,18 @@ using UnityEngine;
 
 namespace FUTUREVISION.WebAR
 {
-    /// <summary>
-    /// TODO: AR Traker Model에 긴으 통합해야함
-    /// </summary>
     public class ARViewModel : BaseViewModel
     {
         [Space(10)]
         public ARObjectView ARObjectView;
         public ARUIView ARUIView;
-        bool isToched = false;
 
         public override void Initialize()
         {
             ARObjectView.Initialize();
             ARUIView.Initialize();
 
-            //ARObjectView.SetCurrentObject(GlobalManager.Instance.DataModel.StepIndex);
             ARUIView.SetActivePlacedButton(false);
-
-            // 2025.08.18 포획하는 것으로 수정
-            //// AR 오브젝트 터치시
-            //ARObjectView.OnClickObjectItem.AddListener((item) =>
-            //{
-            //    if (WebARManager.Instance.ContentViewModel.CurrentState == Content.ContentState.Finding)
-            //    {
-            //        if (isToched)
-            //        {
-            //            // 이미 터치된 상태라면 아무 동작도 하지 않음
-            //            return;
-            //        }
-
-
-            //        WebARManager.Instance.EndFindARObject();
-            //        item.ParticleSystem.Play();
-            //        isToched = true;
-            //    }
-            //});
-
-            // Callback Bindings
-            //WebARManager.Instance.ARTrackerModel.OnScreenShotEvent.AddListener((eventType) =>
-            //{
-            //    switch (eventType)
-            //    {
-            //        case EScreenShotEventType.Prepare:
-            //            {
-            //                ARUIView.gameObject.SetActive(false);
-            //                WebARManager.Instance.ContentViewModel.gameObject.SetActive(false);
-            //            }
-            //            break;
-            //        case EScreenShotEventType.Release:
-            //            {
-            //                ARUIView.gameObject.SetActive(true);
-            //                WebARManager.Instance.ContentViewModel.gameObject.SetActive(true);
-            //            }
-            //            break;
-            //    }
-            //});
 
             WebARManager.Instance.ARTrackerModel.OnPlacementVisibilityChanged.AddListener((isVisible) =>
             {
