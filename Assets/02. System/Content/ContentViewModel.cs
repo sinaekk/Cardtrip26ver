@@ -133,39 +133,48 @@ namespace FUTUREVISION.Content
 
         private void SetState(ContentState newState)
         {
-            IntroView.gameObject.SetActive(false);
-            RecommendationView.gameObject.SetActive(false);
+            if (IntroView != null) IntroView.gameObject.SetActive(false);
+            if (RecommendationView != null) RecommendationView.gameObject.SetActive(false);
             if (LocationView != null) LocationView.gameObject.SetActive(false);
-            CardTripView.gameObject.SetActive(false);
-            StampView.gameObject.SetActive(false);
-            RewardView.gameObject.SetActive(false);
+            if (CardTripView != null) CardTripView.gameObject.SetActive(false);
+            if (StampView != null) StampView.gameObject.SetActive(false);
+            if (RewardView != null) RewardView.gameObject.SetActive(false);
             switch (newState)
             {
                 case ContentState.Intro:
-                    IntroView.gameObject.SetActive(true);
+                    if (IntroView != null) IntroView.gameObject.SetActive(true);
                     break;
                 case ContentState.Recommendation:
-                    RecommendationView.gameObject.SetActive(true);
-                    SetSpotInfo(0);
+                    if (RecommendationView != null)
+                    {
+                        RecommendationView.gameObject.SetActive(true);
+                        SetSpotInfo(0);
+                    }
                     break;
                 case ContentState.Location:
                     if (LocationView != null) LocationView.gameObject.SetActive(true);
                     break;
                 case ContentState.CardTrip:
-                    CardTripView.gameObject.SetActive(true);
-                    StartStage1();
+                    if (CardTripView != null)
+                    {
+                        CardTripView.gameObject.SetActive(true);
+                        StartStage1();
+                    }
                     break;
                 case ContentState.Stamp:
-                    StampView.gameObject.SetActive(true);
+                    if (StampView != null) StampView.gameObject.SetActive(true);
                     break;
                 case ContentState.Reward:
-                    RewardView.gameObject.SetActive(true);
-                    int clearedCount = (Data.Mission1Clear == 1 ? 1 : 0)
-                                     + (Data.Mission2Clear == 1 ? 1 : 0)
-                                     + (Data.Mission3Clear == 1 ? 1 : 0)
-                                     + (Data.Mission4Clear == 1 ? 1 : 0);
-                    RewardView.SetUnlockedCount(clearedCount);
-                    RewardView.SetRewardItem(0);
+                    if (RewardView != null)
+                    {
+                        RewardView.gameObject.SetActive(true);
+                        int clearedCount = (Data.Mission1Clear == 1 ? 1 : 0)
+                                         + (Data.Mission2Clear == 1 ? 1 : 0)
+                                         + (Data.Mission3Clear == 1 ? 1 : 0)
+                                         + (Data.Mission4Clear == 1 ? 1 : 0);
+                        RewardView.SetUnlockedCount(clearedCount);
+                        RewardView.SetRewardItem(0);
+                    }
                     break;
                 default:
                     break;
