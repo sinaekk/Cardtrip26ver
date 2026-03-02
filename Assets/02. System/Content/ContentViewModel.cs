@@ -212,6 +212,7 @@ namespace FUTUREVISION.Content
         #region Intro
         private void InitializeIntro()
         {
+            if (IntroView == null) return;
             IntroView.StartButton.onClick.AddListener(() =>
             {
                 StartCoroutine(ReplacementOrigin());
@@ -224,6 +225,7 @@ namespace FUTUREVISION.Content
         #region Recommendation
         private void InitializeRecommendation()
         {
+            if (RecommendationView == null) return;
             RecommendationView.SetState(ERecommendationState.SelectView);
 
             // 설문조사 시작
@@ -609,6 +611,7 @@ namespace FUTUREVISION.Content
         #region Stamp
         private void InitializeStamp()
         {
+            if (StampView == null) return;
             StampView.PopupButton.onClick.AddListener(() =>
             {
                 SetState(ContentState.Reward);
@@ -625,6 +628,7 @@ namespace FUTUREVISION.Content
         #region Reward
         private void InitializeReward()
         {
+            if (RewardView == null) return;
             RewardView.Initialize();
         }
         #endregion
