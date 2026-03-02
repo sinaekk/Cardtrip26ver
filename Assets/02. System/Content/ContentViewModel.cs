@@ -255,19 +255,26 @@ namespace FUTUREVISION.Content
             });
 
             // 챗봇 응답시 추천 결과 표시
-            GlobalManager.Instance.Gemini_Chatbot.OnReceiveChatbot.AddListener(() =>
+            if (GlobalManager.Instance.Gemini_Chatbot != null)
             {
-                string answerText = GlobalManager.Instance.Gemini_Chatbot.LatestResponse;
-                Debug.Log("Gemini Chatbot Response: " + answerText, this);
-
-                int recommendedAnswer = 0;
-                if (int.TryParse(answerText.Trim(), out recommendedAnswer))
+                GlobalManager.Instance.Gemini_Chatbot.OnReceiveChatbot.AddListener(() =>
                 {
-                    CurrentCourse = recommendedAnswer - 1;
-                }
+                    string answerText = GlobalManager.Instance.Gemini_Chatbot.LatestResponse;
+                    Debug.Log("Gemini Chatbot Response: " + answerText, this);
 
-                RecommendationView.SetState(ERecommendationState.ResultView);
-            });
+                    int recommendedAnswer = 0;
+                    if (int.TryParse(answerText.Trim(), out recommendedAnswer))
+                    {
+                        CurrentCourse = recommendedAnswer - 1;
+                    }
+
+                    RecommendationView.SetState(ERecommendationState.ResultView);
+                });
+            }
+            else
+            {
+                Debug.LogWarning("[ContentViewModel] Gemini_Chatbot이 연결되지 않았습니다. GlobalManager Inspector에서 연결해주세요.", this);
+            }
 
             // 스팟 버튼
             RecommendationView.ToNextButton.onClick.AddListener(() =>
@@ -334,8 +341,17 @@ namespace FUTUREVISION.Content
                     + $"A4: {quizData.AnswerGroups[3].Answers[dataModel.AnsweredQuestionIndices[3]]}\n"
                     + $"\n";
 
-                GlobalManager.Instance.Gemini_Chatbot.SendText(text);
-                RecommendationView.SetState(ERecommendationState.WaitingView);
+                if (GlobalManager.Instance.Gemini_Chatbot != null)
+                {
+                    GlobalManager.Instance.Gemini_Chatbot.SendText(text);
+                    RecommendationView.SetState(ERecommendationState.WaitingView);
+                }
+                else
+                {
+                    // Gemini 미연결 시 기본 코스(0)로 설정
+                    CurrentCourse = 0;
+                    RecommendationView.SetState(ERecommendationState.ResultView);
+                }
             }
         }
         #endregion
