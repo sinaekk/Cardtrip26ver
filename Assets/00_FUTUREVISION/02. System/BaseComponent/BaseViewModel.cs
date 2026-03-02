@@ -17,7 +17,15 @@ namespace FUTUREVISION
         {
             base.Initialize();
 
-            SubViewList.ForEach(view => view.Initialize());
+            SubViewList.ForEach(view =>
+            {
+                if (view == null)
+                {
+                    Debug.LogWarning($"[{GetType().Name}] SubViewList에 null인 View가 있습니다. Inspector에서 확인해주세요.", this);
+                    return;
+                }
+                view.Initialize();
+            });
         }
     }
 }

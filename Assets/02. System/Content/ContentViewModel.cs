@@ -108,12 +108,22 @@ namespace FUTUREVISION.Content
             Data.Load();
 
             // LocationView
-            LocationView.Initialize();
-            LocationView.LocationPinPrefab.button.onClick.AddListener(() =>
+            if (LocationView != null)
             {
-                Debug.Log("LocationPin Button Clicked", this);
-                SetState(ContentState.CardTrip);
-            });
+                LocationView.Initialize();
+                if (LocationView.LocationPinPrefab != null)
+                {
+                    LocationView.LocationPinPrefab.button.onClick.AddListener(() =>
+                    {
+                        Debug.Log("LocationPin Button Clicked", this);
+                        SetState(ContentState.CardTrip);
+                    });
+                }
+            }
+            else
+            {
+                Debug.LogWarning("[ContentViewModel] LocationView가 연결되지 않았습니다.", this);
+            }
         }
 
         private void Update()
@@ -125,7 +135,7 @@ namespace FUTUREVISION.Content
         {
             IntroView.gameObject.SetActive(false);
             RecommendationView.gameObject.SetActive(false);
-            LocationView.gameObject.SetActive(false);
+            if (LocationView != null) LocationView.gameObject.SetActive(false);
             CardTripView.gameObject.SetActive(false);
             StampView.gameObject.SetActive(false);
             RewardView.gameObject.SetActive(false);
@@ -139,7 +149,7 @@ namespace FUTUREVISION.Content
                     SetSpotInfo(0);
                     break;
                 case ContentState.Location:
-                    LocationView.gameObject.SetActive(true);
+                    if (LocationView != null) LocationView.gameObject.SetActive(true);
                     break;
                 case ContentState.CardTrip:
                     CardTripView.gameObject.SetActive(true);
